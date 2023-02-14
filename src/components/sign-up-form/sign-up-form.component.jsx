@@ -20,7 +20,6 @@ export const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   //destructure the object
   const { displayName, email, password, confirmPassword } = formFields;
-  console.log(formFields);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -37,10 +36,12 @@ export const SignUpForm = () => {
 
     try {
       //see if we can authenticate user with email and password
+      // this will return a user object
       const { userAuth } = await createAuthUserWithEmailAndPassword(
         email,
         password
       );
+
       //create user with email and password
       await createUserDocumentFromAuth(userAuth, { displayName });
       resetFormFields();

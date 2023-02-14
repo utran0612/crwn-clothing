@@ -6,6 +6,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
@@ -41,10 +43,10 @@ export const createUserDocumentFromAuth = async (
   if (!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
 
-  console.log(userDocRef);
+  console.log(userDocRef, "userDocRef");
 
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot.exists());
+  console.log(userSnapshot.exists(), "userSnapShot");
 
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
@@ -74,7 +76,24 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
-
+  console.log("signed in");
   return await signInWithEmailAndPassword(auth, email, password);
 };
 
+export const signOutUser = async () => await signOut(auth);
+
+// onAuthStateChanged() returns an 'user' object. Refer the doc to this.
+export const onAuthStateChangedListener = (
+  callback,
+  errorCallback,
+  completeCallback
+) => onAuthStateChanged(auth, callback, errorCallback, completeCallback);
+
+/**
+ * This is an observer. It creates a listener for us with 3 callbacks
+ * next (callback): fired when it listens to the thing
+ * error (errorCallback): fired when there's an error
+ * complete (completeCallback): fired the stream is completed
+ * 
+ * But here, we don't need the last two callbacks. 
+ */

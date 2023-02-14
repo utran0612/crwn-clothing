@@ -1,10 +1,10 @@
 import React from "react";
 import FormInput from "../form-input/form-input.component";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "../button/button.component";
 import {
   signInWithGooglePopup,
-  createUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase.utils";
 import "./sign-in-form.styles.scss";
@@ -17,6 +17,7 @@ const defaultFormFields = {
 export const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     //get the name and value from the event.target (there are 4 pairs of name and value)
@@ -27,8 +28,7 @@ export const SignInForm = () => {
   };
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   const resetFormFields = () => {
@@ -39,12 +39,9 @@ export const SignInForm = () => {
     event.preventDefault();
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      console.log(response);
+      await signInAuthUserWithEmailAndPassword(email, password);
       resetFormFields();
+      navigate("/");
     } catch (e) {
       alert(e);
     }

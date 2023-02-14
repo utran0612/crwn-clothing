@@ -3,6 +3,7 @@ body {
   font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: 20px 40px;
 }
 
 code {
@@ -14,7 +15,6 @@ a {
   text-decoration: none;
   color: black;
 }
-
 
 //add box-sizing so that the size of the box (width and height) won;t change when we add padding/border size
 * {
