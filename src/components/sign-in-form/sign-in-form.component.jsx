@@ -2,11 +2,12 @@ import React from "react";
 import FormInput from "../form-input/form-input.component";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../button/button.component";
+import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
 import {
   signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase.utils";
+
 import "./sign-in-form.styles.scss";
 
 // create a default object
@@ -70,7 +71,7 @@ export const SignInForm = () => {
         />
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
-          <Button type="button" buttonType="google" onClick={signInWithGoogle}>
+          <Button type="button" buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGoogle}>
             Google Sign In
           </Button>
         </div>

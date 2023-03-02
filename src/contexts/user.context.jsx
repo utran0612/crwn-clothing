@@ -16,7 +16,6 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     // onAuthStateChanged provided by firebase gives an user object. Thats why we have user there
     const unsubscribe = onAuthStateChangedListener((user) => {
-      console.log(user);
       if (user) {
         // move this from signInWithGoogle in sign-in-form component
         //so that we centralized all the user-related functions to one place => optimize performance

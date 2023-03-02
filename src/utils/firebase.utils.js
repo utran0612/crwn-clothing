@@ -10,7 +10,16 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -35,6 +44,43 @@ export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 export const db = getFirestore();
+
+// get a collectionRef (just like DocRef)
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db);
+
+  objectsToAdd.forEach((object) => {
+    // the location of the object we want to add to firebase
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    console.log(docRef);
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log("done");
+};
+
+export const getCategoriesAndDocuments = async () => {
+  // ref is like a reference to the collection
+  const collectionRef = collection(db, "categories");
+  const q = query(collectionRef);
+
+  // snapshot is like a info card to locate the document
+  const querySnapshot = await getDocs(q); //getDocs() allow to get multiple documents
+
+  //querySnapshot.docs return an array of all snapshots
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data(); //get the actual data
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+
+  return categoryMap;
+};
 
 export const createUserDocumentFromAuth = async (
   userAuth,
@@ -94,6 +140,6 @@ export const onAuthStateChangedListener = (
  * next (callback): fired when it listens to the thing
  * error (errorCallback): fired when there's an error
  * complete (completeCallback): fired the stream is completed
- * 
- * But here, we don't need the last two callbacks. 
+ *
+ * But here, we don't need the last two callbacks.
  */
