@@ -31,11 +31,13 @@ const firebaseConfig = {
   appId: "1:975786275902:web:37240ee994074f6ce58d6f",
 };
 
-// Initialize Firebase
+// Initialize Firebase - to attach this Firebase instant to the online one
 const firebaseApp = initializeApp(firebaseConfig);
 
+// set a provider up. The reason why there's 'new' keyword because we can have multiple providers
 const provider = new GoogleAuthProvider();
 
+// specific setup that Google wants for Firebase
 provider.setCustomParameters({
   prompt: "select_account",
 });
@@ -128,7 +130,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 export const signOutUser = async () => await signOut(auth);
 
-// onAuthStateChanged() returns an 'user' object. Refer the doc to this.
+// this returns an 'user' object. Refer the doc to this.
 export const onAuthStateChangedListener = (
   callback,
   errorCallback,
