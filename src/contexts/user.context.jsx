@@ -16,7 +16,7 @@ export const USER_ACTION_TYPES = {
 
 //build userReducer function to feed into the useReducer() hook
 const userReducer = (state, action) => {
-  const {type, action} = action;
+  const {type, payload} = action;
 
   switch(type){
     case USER_ACTION_TYPES.SET_CURRENT_USER:
