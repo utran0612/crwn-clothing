@@ -12,7 +12,7 @@ This is an e-commerce web application dedicated to selling second-hand stuff. My
 Clone it!
 
 ```
-$ git clone [git@github.com:goby-lang/sample-web-app.git](https://github.com/utran0612/y-life.git)
+$ git clone [https://github.com/utran0612/y-life.git](https://github.com/utran0612/y-life.git)
 ```
 
 Go to the project directory and run the command:
